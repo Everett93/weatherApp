@@ -2,6 +2,7 @@
 //search button
 $("#search").on("click", function () {
     console.log("#search");
+    
     //taking value of search 
     var search = $('#text').val();
    
@@ -23,19 +24,53 @@ $("#search").on("click", function () {
         .then(function (response) {
             console.log(response)
             //code to pull search info
-            var results = response;
-            //loop to push out weather info
-            
-            for (var i = 0; i < results.length; i++) {
-                var webDiv = $("<div>");
+        
+                var cityDiv = $("<div>");
                 //pushing info found on search
-                var city = $("<p>").text(results[i].city.name);
-                console.log(city);
-                var p = $("<p>").addClass("info");
-                webDiv.append(city);
-                p.append(webDiv)
+                var city = $("<p>").text(response.city.name);
+                var a = $("<p>").addClass("city");
+                cityDiv.append(city);
+                a.append(cityDiv)
                 //showing the results on html
-                $("#list").prepend(p);
-            }console.log($.ajax);
+                $("#list").prepend(a);
+            console.log(city);
+                var date = $("<p>").text(response.list[0].dt_txt);
+                var b = $("<p>").addClass("date");
+                cityDiv.append(date);
+                b.append(cityDiv);
+                $("#list1").prepend(b);
+            console.log(date);
+
+                var temp = $("<p>").text(Math.floor((response.list[0].main.temp - 273.15) * 1.80 + 32));
+                var c = $("<p>").addClass("temp");
+                cityDiv.append(temp);
+                c.append(cityDiv);
+                $("#list2").prepend(c);
+            console.log(temp);
+
+
+           var humidity = $("<p>").text(response.list[0].main.humidity);
+           var d = $("<p>").addClass("humid");
+           cityDiv.append(humidity);
+           d.append(cityDiv);
+           $("#list3").prepend(d);
+           console.log(humidity);
+
+           var wind = $("<p>").text(response.list[0].wind.speed);
+           var e = $("<p>").addClass("wind");
+           cityDiv.append(wind);
+           e.append(cityDiv);
+           $("#list4").prepend(e);
+           console.log(wind);
+
+
+           var icon = $("<p>").text(response.list[0].weather[0].description);
+           var h = $("<p>").addClass("icon");
+           cityDiv.append(icon);
+           h.append(cityDiv);
+           $("#list5").prepend(h);
+           console.log(icon);
+
+
         });
 });
