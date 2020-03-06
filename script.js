@@ -2,7 +2,12 @@
 //search button
 $("#search").on("click", function () {
     console.log("#search");
-    
+    $("#list").empty();
+    $("#date").empty();
+    $("#temp").empty();
+    $("#humid").empty();
+    $("#speed").empty();
+    $("#des").empty();
     //taking value of search 
     var search = $('#text').val();
    
@@ -23,54 +28,52 @@ $("#search").on("click", function () {
     }) 
         .then(function (response) {
             console.log(response)
+
+
+                        //pushing info found on search
+                        var headDiv = $("<header>")
+                        var city = $("<p>").text(response.city.name);
+                        var a = $("<p>").addClass("city");
+                        headDiv.append(city);
+                        a.append(headDiv)
+                        //showing the results on html
+                        $("#list").prepend(a);
             //code to pull search info
-        
-                var cityDiv = $("<div>");
-                //pushing info found on search
-                var city = $("<p>").text(response.city.name);
-                var a = $("<p>").addClass("city");
-                cityDiv.append(city);
-                a.append(cityDiv)
-                //showing the results on html
-                $("#list").prepend(a);
-            console.log(city);
-                var date = $("<p>").text(response.list[0].dt_txt);
-                var b = $("<p>").addClass("date");
-                cityDiv.append(date);
-                b.append(cityDiv);
-                $("#list1").prepend(b);
-            console.log(date);
+            for(var i = 2; i < response.list.length; i+=8){
 
-                var temp = $("<p>").text(Math.floor((response.list[0].main.temp - 273.15) * 1.80 + 32));
-                var c = $("<p>").addClass("temp");
-                cityDiv.append(temp);
-                c.append(cityDiv);
-                $("#list2").prepend(c);
-            console.log(temp);
+                var date = $('<div class="col-sm-2">').text("Date: " + (response.list[i].dt_txt) + " AM");
+                var temp = $("<div class='col-sm-2'>").text("Temperature: " + (Math.floor((response.list[i].main.temp - 273.15) * 1.80 + 32)));
+                var humidity = $("<div class='col-sm-2'>").text("Humidity: " + (response.list[i].main.humidity));
+                var wind = $("<div class='col-sm-2'>").text("Wind Speed: " + (response.list[i].wind.speed));
+                var icon = $("<div class='col-sm-2'>").text("Description: " + (response.list[i].weather[0].description));
+                
+                $("#date").append(date);
+               $("#temp").append(temp);
+               $("#humid").append(humidity);
+               $("#speed").append(wind);
+               $("#des").append(icon);
 
 
-           var humidity = $("<p>").text(response.list[0].main.humidity);
-           var d = $("<p>").addClass("humid");
-           cityDiv.append(humidity);
-           d.append(cityDiv);
-           $("#list3").prepend(d);
-           console.log(humidity);
 
-           var wind = $("<p>").text(response.list[0].wind.speed);
-           var e = $("<p>").addClass("wind");
-           cityDiv.append(wind);
-           e.append(cityDiv);
-           $("#list4").prepend(e);
-           console.log(wind);
+       
 
 
-           var icon = $("<p>").text(response.list[0].weather[0].description);
-           var h = $("<p>").addClass("icon");
-           cityDiv.append(icon);
-           h.append(cityDiv);
-           $("#list5").prepend(h);
-           console.log(icon);
+
+            }
+
+
+
+
+
+
+
+
+
+
+
 
 
         });
 });
+
+
